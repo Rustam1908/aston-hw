@@ -3,8 +3,12 @@ package org.rusty.repository;
 import org.rusty.entity.Student;
 import org.rusty.service.ConnectionProvider;
 
-import java.util.Collections;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class StudentRepository {
 
@@ -25,8 +29,24 @@ public class StudentRepository {
         return instance;
     }
 
-    public List<Student> findAll() {
-
-        return Collections.emptyList();
+    public Optional<List<Student>> findAll() {
+        List<Student> students;
+        String findAllStudentsSQLQuery = "SELECT * FROM Student";
+        try (Statement statement = connectionProvider.getConnection().createStatement();
+             ResultSet resultSet = statement.executeQuery(findAllStudentsSQLQuery)) {
+            students = new ArrayList<>();
+            Student student;
+            while (resultSet.next()) {
+                student = Student.builder()
+                        .studentId(resultSet.getInt("student_id"))
+                        .firstName(resultSet.getString("first_name"))
+                        .lastName(resultSet.getString("last_name"))
+                        .build();
+                students.add(student);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.of(students);
     }
 }
