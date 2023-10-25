@@ -136,8 +136,6 @@ public class RustamArrayListTest {
         integerRustamArrayList.add(2);
         integerRustamArrayList.add(4);
 
-        System.out.println(integerRustamArrayList);
-
         integerRustamArrayList.sort((o1, o2) -> {
             if (o1 > o2) {
                 return 1;
@@ -147,8 +145,6 @@ public class RustamArrayListTest {
                 return -1;
             }
         });
-
-        System.out.println(integerRustamArrayList);
 
         assertEquals(1, (int) integerRustamArrayList.get(0));
         assertEquals(2, (int) integerRustamArrayList.get(1));
