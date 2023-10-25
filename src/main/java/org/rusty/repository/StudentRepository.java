@@ -38,20 +38,25 @@ public class StudentRepository {
                 "GROUP BY Student.student_id ORDER BY Student.student_id;";
         try (Statement statement = connectionProvider.getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery(findAllStudentsSQLQuery)) {
-            students = new ArrayList<>();
-            Student student;
-            while (resultSet.next()) {
-                student = Student.builder()
-                        .studentId(resultSet.getInt("student_id"))
-                        .firstName(resultSet.getString("first_name"))
-                        .lastName(resultSet.getString("last_name"))
-                        .courses(resultSet.getString("courses"))
-                        .build();
-                students.add(student);
-            }
+            students = processResultSet(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return Optional.of(students);
+    }
+
+    private List<Student> processResultSet(ResultSet resultSet) throws SQLException {
+        List<Student> students = new ArrayList<>();
+        Student student;
+        while (resultSet.next()) {
+            student = Student.builder()
+                    .studentId(resultSet.getInt("student_id"))
+                    .firstName(resultSet.getString("first_name"))
+                    .lastName(resultSet.getString("last_name"))
+                    .courses(resultSet.getString("courses"))
+                    .build();
+            students.add(student);
+        }
+        return students;
     }
 }
