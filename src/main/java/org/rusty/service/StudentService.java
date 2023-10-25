@@ -1,6 +1,10 @@
 package org.rusty.service;
 
+import org.rusty.entity.Student;
 import org.rusty.repository.StudentRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 public class StudentService {
 
@@ -22,16 +26,22 @@ public class StudentService {
     }
 
     public String handleGetRequest() {
+        Optional<List<Student>> studentsOpt = studentRepository.findAll();
+        if (studentsOpt.isPresent()) {
+            return buildString(studentsOpt.get());
+        }
+        throw new RuntimeException("Result list is null.");
+    }
+
+    public String buildString(List<Student> students) {
         StringBuilder sb = new StringBuilder();
-        studentRepository.findAll()
-                .ifPresent(students -> students.forEach(student -> sb
-                        .append(student.getFirstName())
-                        .append(" ")
-                        .append(student.getLastName())
-                        .append(", курсы: ")
-                        .append(student.getCourses())
-                        .append("\n"))
-                );
+        students.forEach(student -> sb
+                .append(student.getFirstName())
+                .append(" ")
+                .append(student.getLastName())
+                .append(", курсы: ")
+                .append(student.getCourses())
+                .append("\n"));
         return sb.toString();
     }
 }
