@@ -1,6 +1,7 @@
 package org.rusty.servlet;
 
 import org.rusty.repository.CourseRepository;
+import org.rusty.service.CourseService;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,13 +13,13 @@ import java.io.PrintWriter;
 @WebServlet("/courses")
 public class CourseServlet extends HttpServlet {
 
-    private final CourseRepository courseRepository = CourseRepository.getInstance();
+    private final CourseService courseService = CourseService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         PrintWriter printWriter = response.getWriter();
-        printWriter.write(courseRepository.findAll().toString());
+        printWriter.write(courseService.handleGetRequest());
         printWriter.close();
     }
 }

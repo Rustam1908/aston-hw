@@ -28,6 +28,8 @@ public class StudentService {
                         .append(student.getFirstName())
                         .append(" ")
                         .append(student.getLastName())
+                        .append(", курсы: ")
+                        .append(student.getCourses())
                         .append("\n"))
                 );
         return sb.toString();

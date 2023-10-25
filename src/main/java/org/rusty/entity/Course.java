@@ -1,15 +1,15 @@
 package org.rusty.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
+@Builder
 public class Course {
 
     private int courseId;
     private String title;
     private int duration;
-    private List<Student> students;
-    private List<Teacher> teachers;
+    private String students;
+    private String teachers;
 }

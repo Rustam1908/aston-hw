@@ -8,5 +8,5 @@ public class Teacher {
     private int teacherId;
     private String firstName;
     private String lastName;
-    private Course course;
+    private String course;
 }
