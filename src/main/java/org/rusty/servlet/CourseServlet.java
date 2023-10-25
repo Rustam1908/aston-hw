@@ -1,6 +1,5 @@
 package org.rusty.servlet;
 
-import org.rusty.repository.CourseRepository;
 import org.rusty.service.CourseService;
 
 import javax.servlet.annotation.WebServlet;
