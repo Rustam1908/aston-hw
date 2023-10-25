@@ -15,6 +15,7 @@ public class HomeServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter printWriter = response.getWriter();
         printWriter.write("Добро пожаловать!");
+        printWriter.write("\n");
         printWriter.write("Здесь Вы найдёте информацию о курсах!");
         printWriter.close();
     }
