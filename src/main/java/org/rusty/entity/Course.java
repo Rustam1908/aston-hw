@@ -4,9 +4,18 @@ import java.util.List;
 
 public class Course {
 
+    private int courseId;
     private String name;
     private int duration;
     private List<Student> students;
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
 
     public String getName() {
         return name;
