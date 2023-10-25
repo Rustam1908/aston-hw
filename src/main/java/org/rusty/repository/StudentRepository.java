@@ -12,22 +12,7 @@ import java.util.Optional;
 
 public class StudentRepository {
 
-    private static volatile StudentRepository instance;
-
     private final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
-
-    private StudentRepository() {}
-
-    public static StudentRepository getInstance() {
-        if (instance == null) {
-            synchronized (StudentRepository.class) {
-                if (instance == null) {
-                    instance = new StudentRepository();
-                }
-            }
-        }
-        return instance;
-    }
 
     public Optional<List<Student>> findAll() {
         List<Student> students;
@@ -45,7 +30,7 @@ public class StudentRepository {
         return Optional.of(students);
     }
 
-    private List<Student> processResultSet(ResultSet resultSet) throws SQLException {
+    public List<Student> processResultSet(ResultSet resultSet) throws SQLException {
         List<Student> students = new ArrayList<>();
         Student student;
         while (resultSet.next()) {

@@ -10,7 +10,7 @@ public class TeacherService {
 
     private static volatile TeacherService instance;
 
-    private final TeacherRepository teacherRepository = TeacherRepository.getInstance();
+    private final TeacherRepository teacherRepository = new TeacherRepository();
 
     private TeacherService() {}
 

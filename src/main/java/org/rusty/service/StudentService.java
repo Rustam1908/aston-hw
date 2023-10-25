@@ -10,7 +10,7 @@ public class StudentService {
 
     private static volatile StudentService instance;
 
-    private final StudentRepository studentRepository = StudentRepository.getInstance();
+    private final StudentRepository studentRepository = new StudentRepository();
 
     private StudentService() {}
 

@@ -1,6 +1,6 @@
 package org.rusty.repository;
 
-import org.rusty.entity.Student;
+import org.rusty.entity.Course;
 import org.rusty.entity.Teacher;
 import org.rusty.service.ConnectionProvider;
 
@@ -13,22 +13,7 @@ import java.util.Optional;
 
 public class TeacherRepository {
 
-    private static volatile TeacherRepository instance;
-
     private final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
-
-    private TeacherRepository() {}
-
-    public static TeacherRepository getInstance() {
-        if (instance == null) {
-            synchronized (TeacherRepository.class) {
-                if (instance == null) {
-                    instance = new TeacherRepository();
-                }
-            }
-        }
-        return instance;
-    }
 
     public Optional<List<Teacher>> findAll() {
         List<Teacher> teachers;
@@ -39,20 +24,25 @@ public class TeacherRepository {
                         "ORDER BY Teacher.teacher_id;";
         try (Statement statement = connectionProvider.getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery(findAllTeachersSQLQuery)) {
-            teachers = new ArrayList<>();
-            Teacher teacher;
-            while (resultSet.next()) {
-                teacher = Teacher.builder()
-                        .teacherId(resultSet.getInt("teacher_id"))
-                        .firstName(resultSet.getString("first_name"))
-                        .lastName(resultSet.getString("last_name"))
-                        .course(resultSet.getString("title"))
-                        .build();
-                teachers.add(teacher);
-            }
+            teachers = processResultSet(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return Optional.of(teachers);
+    }
+
+    public List<Teacher> processResultSet(ResultSet resultSet) throws SQLException {
+        List<Teacher> teachers = new ArrayList<>();
+        Teacher teacher;
+        while (resultSet.next()) {
+            teacher = Teacher.builder()
+                    .teacherId(resultSet.getInt("teacher_id"))
+                    .firstName(resultSet.getString("first_name"))
+                    .lastName(resultSet.getString("last_name"))
+                    .course(resultSet.getString("title"))
+                    .build();
+            teachers.add(teacher);
+        }
+        return teachers;
     }
 }

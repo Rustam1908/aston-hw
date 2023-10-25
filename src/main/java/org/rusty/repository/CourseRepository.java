@@ -12,22 +12,7 @@ import java.util.Optional;
 
 public class CourseRepository {
 
-    private static volatile CourseRepository instance;
-
     private final ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
-
-    private CourseRepository() {}
-
-    public static CourseRepository getInstance() {
-        if (instance == null) {
-            synchronized (CourseRepository.class) {
-                if (instance == null) {
-                    instance = new CourseRepository();
-                }
-            }
-        }
-        return instance;
-    }
 
     public Optional<List<Course>> findAll() {
         List<Course> courses;
@@ -42,21 +27,26 @@ public class CourseRepository {
                 "GROUP BY Course.course_id ORDER BY Course.course_id;";
         try (Statement statement = connectionProvider.getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery(findAllCoursesSQLQuery)) {
-            courses = new ArrayList<>();
-            Course course;
-            while (resultSet.next()) {
-                course = Course.builder()
-                        .courseId(resultSet.getInt("course_id"))
-                        .title(resultSet.getString("title"))
-                        .duration(resultSet.getInt("duration"))
-                        .students(resultSet.getString("students"))
-                        .teachers(resultSet.getString("teachers"))
-                        .build();
-                courses.add(course);
-            }
+            courses = processResultSet(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return Optional.of(courses);
+    }
+
+    public List<Course> processResultSet(ResultSet resultSet) throws SQLException {
+        List<Course> courses = new ArrayList<>();
+        Course course;
+        while (resultSet.next()) {
+            course = Course.builder()
+                    .courseId(resultSet.getInt("course_id"))
+                    .title(resultSet.getString("title"))
+                    .duration(resultSet.getInt("duration"))
+                    .students(resultSet.getString("students"))
+                    .teachers(resultSet.getString("teachers"))
+                    .build();
+            courses.add(course);
+        }
+        return courses;
     }
 }
