@@ -3,6 +3,7 @@ package org.rusty.service;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.dialect.PostgreSQLDialect;
 import org.hibernate.service.ServiceRegistry;
 import org.rusty.entity.Course;
 import org.rusty.entity.Student;
@@ -49,7 +50,8 @@ public class SessionFactoryProvider {
         properties.put("hibernate.connection.password", "postgres");
         properties.put("hibernate.connection.pool_size", "1");
 
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+//        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+//        WARN: HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect'
         properties.put("hibernate.current_session_context_class", "thread");
         properties.put("hibernate.show_sql", "true");
 
