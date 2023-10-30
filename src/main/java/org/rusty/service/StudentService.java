@@ -8,32 +8,14 @@ import java.util.Optional;
 
 public class StudentService {
 
-    private static volatile StudentService instance;
-
     private final StudentRepository studentRepository = new StudentRepository();
 
-    private StudentService() {}
-
-    public static StudentService getInstance() {
-        if (instance == null) {
-            synchronized (StudentService.class) {
-                if (instance == null) {
-                    instance = new StudentService();
-                }
-            }
-        }
-        return instance;
+    public String getStudentList() {
+        List<Student> students = studentRepository.findAll();
+        return buildString(students);
     }
 
-    public String handleGetRequest() {
-        Optional<List<Student>> studentsOpt = studentRepository.findAll();
-        if (studentsOpt.isPresent()) {
-            return buildString(studentsOpt.get());
-        }
-        throw new RuntimeException("Result list is null.");
-    }
-
-    public String buildString(List<Student> students) {
+    private String buildString(List<Student> students) {
         StringBuilder sb = new StringBuilder();
         students.forEach(student -> sb
                 .append(student.getFirstName())

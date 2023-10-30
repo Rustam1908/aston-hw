@@ -8,29 +8,11 @@ import java.util.Optional;
 
 public class TeacherService {
 
-    private static volatile TeacherService instance;
-
     private final TeacherRepository teacherRepository = new TeacherRepository();
 
-    private TeacherService() {}
-
-    public static TeacherService getInstance() {
-        if (instance == null) {
-            synchronized (TeacherService.class) {
-                if (instance == null) {
-                    instance = new TeacherService();
-                }
-            }
-        }
-        return instance;
-    }
-
-    public String handleGetRequest() {
-        Optional<List<Teacher>> teachersOpt = teacherRepository.findAll();
-        if (teachersOpt.isPresent()) {
-            return buildString(teachersOpt.get());
-        }
-        throw new RuntimeException("Result list is null.");
+    public String getTeacherList() {
+        List<Teacher> teachers = teacherRepository.findAll();
+        return buildString(teachers);
     }
 
     public String buildString(List<Teacher> teachers) {

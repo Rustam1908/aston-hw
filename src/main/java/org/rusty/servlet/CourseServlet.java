@@ -12,13 +12,13 @@ import java.io.PrintWriter;
 @WebServlet("/courses")
 public class CourseServlet extends HttpServlet {
 
-    private final CourseService courseService = CourseService.getInstance();
+    private final CourseService courseService = new CourseService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         PrintWriter printWriter = response.getWriter();
-        printWriter.write(courseService.handleGetRequest());
+        printWriter.write(courseService.getCourseList());
         printWriter.close();
     }
 }
