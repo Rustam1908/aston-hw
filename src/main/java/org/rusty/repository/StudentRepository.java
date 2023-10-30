@@ -18,6 +18,7 @@ public class StudentRepository {
     public List<Student> findAll() {
         Transaction transaction = null;
         List<Student> students = null;
+
         try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
             students = session.createQuery("SELECT s FROM Student s", Student.class).getResultList();
@@ -27,5 +28,18 @@ public class StudentRepository {
             log.error(e.getMessage());
         }
         return students;
+    }
+
+    public void save(Student student) {
+        Transaction transaction = null;
+
+        try (Session session = factory.openSession()) {
+            transaction = session.beginTransaction();
+            session.persist(student);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) transaction.rollback();
+            log.error(e.getMessage());
+        }
     }
 }
