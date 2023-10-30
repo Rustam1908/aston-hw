@@ -19,6 +19,7 @@ public class Teacher {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 }

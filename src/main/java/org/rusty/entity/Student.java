@@ -21,6 +21,11 @@ public class Student {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "Student_Course",
+            joinColumns = { @JoinColumn(name = "student_id") },
+            inverseJoinColumns = { @JoinColumn(name = "course_id") }
+    )
     private Set<Course> courses;
 }
