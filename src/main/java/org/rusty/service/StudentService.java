@@ -1,10 +1,11 @@
 package org.rusty.service;
 
 import org.rusty.entity.Student;
+import org.rusty.entity.students.Intern;
 import org.rusty.repository.StudentRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Optional;
 
 public class StudentService {
 
@@ -25,5 +26,14 @@ public class StudentService {
                 .append(student.getCourses())
                 .append("\n"));
         return sb.toString();
+    }
+
+    public String saveNewStudent(HttpServletRequest request) {
+        // todo parse request
+        Student student = new Intern();
+        student.setFirstName("Ivan");
+        student.setLastName("Ivanov");
+        studentRepository.save(student);
+        return "Студент добавлен!";
     }
 }
