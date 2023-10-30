@@ -8,10 +8,11 @@ import java.util.Set;
 @Entity
 @Table(name = "Student")
 @Data
-public class Student {
+public abstract class Student { // todo inheritance
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "student_seq") // todo seq
     @Column(name = "student_id", nullable = false, unique = true)
     private int studentId;
 
@@ -28,4 +29,8 @@ public class Student {
             inverseJoinColumns = { @JoinColumn(name = "course_id") }
     )
     private Set<Course> courses;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "diary_id", referencedColumnName = "student_id")
+    private MarkDiary markDiary;
 }
