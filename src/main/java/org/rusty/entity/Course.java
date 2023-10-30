@@ -10,12 +10,11 @@ import java.util.Set;
 @Entity
 @Table(name = "Course")
 @Data
-@Builder
 public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "course_id", nullable = false, unique = true)
     private int courseId;
 
     @Column(name = "title")
