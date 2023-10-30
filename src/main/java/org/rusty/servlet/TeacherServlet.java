@@ -1,5 +1,6 @@
 package org.rusty.servlet;
 
+import lombok.extern.slf4j.Slf4j;
 import org.rusty.service.TeacherService;
 
 import javax.servlet.annotation.WebServlet;
@@ -10,15 +11,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet("/teachers")
+@Slf4j
 public class TeacherServlet extends HttpServlet {
 
     private final TeacherService teacherService = new TeacherService();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html");
-        PrintWriter printWriter = response.getWriter();
-        printWriter.write(teacherService.getTeacherList());
-        printWriter.close();
+        try (PrintWriter printWriter = response.getWriter()) {
+            printWriter.write(teacherService.getTeacherList());
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
     }
 }
