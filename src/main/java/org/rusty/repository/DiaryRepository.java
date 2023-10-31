@@ -5,34 +5,39 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.rusty.entity.Course;
+import org.rusty.entity.Diary;
 import org.rusty.service.SessionFactoryProvider;
 
-import java.util.Collections;
-import java.util.List;
-
 @Slf4j
-public class CourseRepository {
+public class DiaryRepository {
 
     private final SessionFactory factory = SessionFactoryProvider.getSessionFactory();
 
-    public List<Course> findAll() {
-
-        return Collections.emptyList();
-    }
-
-    public Course getById(int id) {
+    public void save(Diary diary) {
         Transaction transaction = null;
-        Course course = null;
 
         try (Session session = factory.openSession()) {
             transaction = session.beginTransaction();
-            course = session.get(Course.class, id);
+            session.persist(diary);
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) transaction.rollback();
             log.error(e.getMessage());
         }
-        return course;
+    }
+
+    public Diary getById(int id) {
+        Transaction transaction = null;
+        Diary diary = null;
+
+        try (Session session = factory.openSession()) {
+            transaction = session.beginTransaction();
+            diary = session.get(Diary.class, id);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) transaction.rollback();
+            log.error(e.getMessage());
+        }
+        return diary;
     }
 }

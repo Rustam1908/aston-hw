@@ -16,6 +16,10 @@ public class CourseService {
         return buildString(courses);
     }
 
+    public Course getCourseById(int id) {
+        return courseRepository.getById(id);
+    }
+
     public String buildString(List<Course> courses) {
         StringBuilder sb = new StringBuilder();
         courses.forEach(course -> sb
