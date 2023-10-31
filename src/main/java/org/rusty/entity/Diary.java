@@ -3,19 +3,21 @@ package org.rusty.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Entity
-@Table(name = "MarkDiary")
+@Table(name = "Diary")
 @Data
-public class MarkDiary {
+public class Diary {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "diary_id", nullable = false, unique = true)
-    private int diaryId;
+    private UUID diaryId;
 
-    @Column(name = "first_name")
+    @Column(name = "marks")
     private String marks;
 
-    @OneToOne(mappedBy = "markDiary")
+    @OneToOne(mappedBy = "diary")
     private Student student;
 }

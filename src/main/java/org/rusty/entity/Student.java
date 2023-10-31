@@ -7,12 +7,14 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Student")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "student_type", discriminatorType = DiscriminatorType.STRING)
 @Data
-public abstract class Student { // todo inheritance
+public abstract class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "student_seq") // todo seq
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_seq_gen")
+    @SequenceGenerator(name = "student_seq_gen", sequenceName = "student_seq_gen")
     @Column(name = "student_id", nullable = false, unique = true)
     private int studentId;
 
@@ -31,6 +33,6 @@ public abstract class Student { // todo inheritance
     private Set<Course> courses;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "diary_id", referencedColumnName = "student_id")
-    private MarkDiary markDiary;
+    @JoinColumn(name = "diary_id", referencedColumnName = "diary_id")
+    private Diary diary;
 }

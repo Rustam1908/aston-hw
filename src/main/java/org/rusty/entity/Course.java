@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Course")
@@ -13,9 +14,9 @@ import java.util.Set;
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "course_id", nullable = false, unique = true)
-    private int courseId;
+    private UUID courseId;
 
     @Column(name = "title")
     private String title;
