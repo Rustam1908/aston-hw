@@ -9,6 +9,9 @@ import org.rusty.entity.Course;
 import org.rusty.entity.Diary;
 import org.rusty.entity.Student;
 import org.rusty.entity.Teacher;
+import org.rusty.entity.students.Intern;
+import org.rusty.entity.students.Junior;
+import org.rusty.entity.students.Middle;
 
 import java.util.Properties;
 
@@ -27,10 +30,14 @@ public class SessionFactoryProvider {
         try {
             Configuration configuration = getConfiguration();
 
-            configuration.addAnnotatedClass(Student.class);
             configuration.addAnnotatedClass(Course.class);
             configuration.addAnnotatedClass(Teacher.class);
             configuration.addAnnotatedClass(Diary.class);
+
+            configuration.addAnnotatedClass(Student.class);
+            configuration.addAnnotatedClass(Intern.class);
+            configuration.addAnnotatedClass(Junior.class);
+            configuration.addAnnotatedClass(Middle.class);
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties())

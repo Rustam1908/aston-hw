@@ -1,12 +1,15 @@
 package org.rusty.service;
 
+import org.rusty.entity.Course;
 import org.rusty.entity.Diary;
 import org.rusty.entity.Student;
+import org.rusty.entity.students.Intern;
 import org.rusty.repository.DiaryRepository;
 import org.rusty.repository.StudentRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class StudentService {
@@ -35,24 +38,21 @@ public class StudentService {
     public String saveNewStudent(HttpServletRequest request) {
         // todo parse request
 
-//        Set<Course> courses = Set.of(
-//            courseService.getCourseById(1),
-//            courseService.getCourseById(2)
-//        );
+        Set<Course> courses = Set.of(
+            courseService.getCourseById(UUID.fromString("d6fde834-b924-4b7d-84da-e20fc1b5bd70")),
+            courseService.getCourseById(UUID.fromString("ac556d39-cced-46ab-8ac0-896acb1c7fa1"))
+        );
 
         Diary diary = new Diary();
-//        diary.setDiaryId(UUID.randomUUID());
         diaryRepository.save(diary);
 
-//        Student student = new Intern();
-//        student.setFirstName("Ivan");
-//        student.setLastName("Ivanov");
-//        student.setCourses(courses);
-//        student.setMarkDiary();
-//        studentRepository.save(student);
-
-
-
+        Intern intern = new Intern();
+        intern.setFirstName("Ivan");
+        intern.setLastName("Ivanov");
+        intern.setCourses(courses);
+        intern.setDiary(diary);
+        intern.setPromising(true);
+        studentRepository.save(intern);
 
         return "Студенты добавлены!";
     }
