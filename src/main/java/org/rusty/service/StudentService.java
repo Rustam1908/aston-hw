@@ -1,17 +1,11 @@
 package org.rusty.service;
 
-import org.rusty.entity.Course;
-import org.rusty.entity.Diary;
 import org.rusty.entity.Student;
-import org.rusty.entity.students.Intern;
 import org.rusty.entity.students.Junior;
 import org.rusty.entity.students.Middle;
-import org.rusty.enums.Achievements;
-import org.rusty.repository.DiaryRepository;
 import org.rusty.repository.StudentRepository;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -19,22 +13,20 @@ import java.util.UUID;
 public class StudentService {
 
     private final StudentRepository studentRepository = new StudentRepository();
-    private final DiaryRepository diaryRepository = new DiaryRepository();
-    private final CourseService courseService = new CourseService();
 
-    public String getStudentList() {
-        List<Student> students = studentRepository.findAll();
-        return buildString(students);
+    public String getJuniorList() {
+        List<Junior> juniors = studentRepository.findAllJuniors();
+        return buildString(juniors);
     }
 
-    private String buildString(List<Student> students) {
+    private String buildString(List<? extends Student> students) {
         StringBuilder sb = new StringBuilder();
         students.forEach(student -> sb
                 .append(student.getFirstName())
                 .append(" ")
                 .append(student.getLastName())
                 .append(", курсы: ")
-                .append(student.getCourses())
+                .append(student.getCourses()) // LIE because transactions have to be in this layer
                 .append("\n"));
         return sb.toString();
     }
@@ -55,7 +47,7 @@ public class StudentService {
 //            UUID.fromString("34ba28f8-5dac-4a01-b9c0-168d3093bea2"),
 //            UUID.fromString("ff36a4a3-6559-4754-ad54-9c910af11d75")
 //        );
-//
+
 //        Junior junior = new Junior();
 //        junior.setFirstName("Sergey");
 //        junior.setLastName("Sergeev");

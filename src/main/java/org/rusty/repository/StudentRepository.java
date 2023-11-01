@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.rusty.entity.Course;
 import org.rusty.entity.Diary;
 import org.rusty.entity.Student;
+import org.rusty.entity.students.Junior;
 import org.rusty.service.SessionFactoryProvider;
 
 import java.util.HashSet;
@@ -19,7 +20,6 @@ import java.util.UUID;
 public class StudentRepository {
 
     private final SessionFactory factory = SessionFactoryProvider.getSessionFactory();
-    private final CourseRepository courseRepository = new CourseRepository();
 
     public List<Student> findAll() {
         Transaction transaction = null;
@@ -34,6 +34,23 @@ public class StudentRepository {
             log.error(e.getMessage());
         }
         return students;
+    }
+
+    public List<Junior> findAllJuniors() {
+        Transaction transaction = null;
+        List<Junior> juniors = null;
+
+        try (Session session = factory.openSession()) {
+            transaction = session.beginTransaction();
+
+            juniors = session.createQuery("SELECT s FROM Junior s", Junior.class).getResultList();
+
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) transaction.rollback();
+            log.error(e.getMessage());
+        }
+        return juniors;
     }
 
     public void save(Student student, Set<UUID> coursesIds) {

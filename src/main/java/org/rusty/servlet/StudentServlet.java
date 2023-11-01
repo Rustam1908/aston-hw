@@ -3,7 +3,6 @@ package org.rusty.servlet;
 import lombok.extern.slf4j.Slf4j;
 import org.rusty.service.StudentService;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ public class StudentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html");
         try (PrintWriter printWriter = response.getWriter()) {
-            printWriter.write(studentService.getStudentList());
+            printWriter.write(studentService.getJuniorList());
         } catch (IOException e) {
             log.error(e.getMessage());
         }
