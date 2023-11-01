@@ -7,7 +7,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Teacher")
-@Data
 public class Teacher {
 
     @Id
@@ -24,4 +23,36 @@ public class Teacher {
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
+
+    public UUID getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(UUID teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
 }

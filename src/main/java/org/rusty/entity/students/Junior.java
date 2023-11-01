@@ -10,10 +10,17 @@ import org.rusty.enums.Achievements;
 @Entity
 @Table(name = "Junior")
 @DiscriminatorValue(value = "JUNIOR")
-@Data
 public class Junior extends Student {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "achievements")
     private Achievements achievements;
+
+    public Achievements getAchievements() {
+        return achievements;
+    }
+
+    public void setAchievements(Achievements achievements) {
+        this.achievements = achievements;
+    }
 }

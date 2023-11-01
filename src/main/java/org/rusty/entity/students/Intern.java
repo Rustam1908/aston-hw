@@ -12,9 +12,16 @@ import org.rusty.entity.Student;
 @Entity
 @Table(name = "Intern")
 @DiscriminatorValue(value = "INTERN")
-@Data
 public class Intern extends Student {
 
     @Column(name = "promising")
     private boolean promising;
+
+    public boolean isPromising() {
+        return promising;
+    }
+
+    public void setPromising(boolean promising) {
+        this.promising = promising;
+    }
 }

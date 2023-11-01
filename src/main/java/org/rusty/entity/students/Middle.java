@@ -12,9 +12,16 @@ import org.rusty.entity.Student;
 @Entity
 @Table(name = "Middle")
 @DiscriminatorValue(value = "MIDDLE")
-@Data
 public class Middle extends Student {
 
     @Column(name = "awards")
     private String awards;
+
+    public String getAwards() {
+        return awards;
+    }
+
+    public void setAwards(String awards) {
+        this.awards = awards;
+    }
 }

@@ -8,12 +8,14 @@ import org.hibernate.Transaction;
 import org.rusty.entity.Diary;
 import org.rusty.service.SessionFactoryProvider;
 
+import java.util.UUID;
+
 @Slf4j
 public class DiaryRepository {
 
     private final SessionFactory factory = SessionFactoryProvider.getSessionFactory();
 
-    public void save(Diary diary) {
+    public UUID save(Diary diary) {
         Transaction transaction = null;
 
         try (Session session = factory.openSession()) {
@@ -24,9 +26,10 @@ public class DiaryRepository {
             if (transaction != null) transaction.rollback();
             log.error(e.getMessage());
         }
+        return diary.getDiaryId();
     }
 
-    public Diary getById(int id) {
+    public Diary getById(UUID id) {
         Transaction transaction = null;
         Diary diary = null;
 

@@ -1,13 +1,11 @@
 package org.rusty.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "Diary")
-@Data
 public class Diary {
 
     @Id
@@ -20,4 +18,28 @@ public class Diary {
 
     @OneToOne(mappedBy = "diary")
     private Student student;
+
+    public UUID getDiaryId() {
+        return diaryId;
+    }
+
+    public void setDiaryId(UUID diaryId) {
+        this.diaryId = diaryId;
+    }
+
+    public String getMarks() {
+        return marks;
+    }
+
+    public void setMarks(String marks) {
+        this.marks = marks;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 }
