@@ -59,6 +59,9 @@ public class StudentService {
         );
 
         Middle middle = new Middle();
+
+//        middle.setStudentId(1000); // to make PersistentObjectException
+
         middle.setFirstName("Vova");
         middle.setLastName("Vladimirov");
         middle.setAwards("Fullstack Championship Winner");
