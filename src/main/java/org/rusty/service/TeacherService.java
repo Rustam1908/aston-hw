@@ -15,6 +15,10 @@ public class TeacherService {
         return buildString(teachers);
     }
 
+    public void init() {
+        teacherRepository.init();
+    }
+
     public String buildString(List<Teacher> teachers) {
         StringBuilder sb = new StringBuilder();
         teachers.forEach(teacher -> sb

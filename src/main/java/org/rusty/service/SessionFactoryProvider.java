@@ -5,10 +5,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.dialect.PostgreSQLDialect;
 import org.hibernate.service.ServiceRegistry;
-import org.rusty.entity.Course;
-import org.rusty.entity.Diary;
-import org.rusty.entity.Student;
-import org.rusty.entity.Teacher;
+import org.rusty.entity.*;
 import org.rusty.entity.students.Intern;
 import org.rusty.entity.students.Junior;
 import org.rusty.entity.students.Middle;
@@ -33,6 +30,7 @@ public class SessionFactoryProvider {
             configuration.addAnnotatedClass(Course.class);
             configuration.addAnnotatedClass(Teacher.class);
             configuration.addAnnotatedClass(Diary.class);
+            configuration.addAnnotatedClass(Comment.class);
 
             configuration.addAnnotatedClass(Student.class);
             configuration.addAnnotatedClass(Intern.class);

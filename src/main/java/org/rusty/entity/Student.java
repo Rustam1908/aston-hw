@@ -34,7 +34,7 @@ public abstract class Student {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "Student_Course",
             joinColumns = { @JoinColumn(name = "student_id") },
