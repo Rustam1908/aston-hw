@@ -11,7 +11,6 @@ import org.rusty.model.entity.Student;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "Middle")
 @DiscriminatorValue(value = "MIDDLE")
 @Getter
 @Setter

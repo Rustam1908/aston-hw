@@ -25,9 +25,6 @@ public class Course {
     @Column(name = "duration")
     private int duration;
 
-    @ManyToMany(mappedBy = "courses")
-    private Set<Student> students;
-
     @OneToMany(mappedBy = "course")
     private List<Teacher> teachers;
 }

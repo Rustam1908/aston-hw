@@ -10,6 +10,11 @@ public class ExceptionResolver {
 
     @ExceptionHandler(NoSuchStudentException.class)
     public ResponseEntity<String> handleNoSuchStudentException() {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("No student found by given id.", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoSuchCourseException.class)
+    public ResponseEntity<String> handleNoSuchCourseException() {
+        return new ResponseEntity<>("No course found by given id.", HttpStatus.BAD_REQUEST);
     }
 }

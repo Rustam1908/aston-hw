@@ -9,7 +9,6 @@ import org.rusty.enums.Achievements;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "Junior")
 @DiscriminatorValue(value = "JUNIOR")
 @Getter
 @Setter

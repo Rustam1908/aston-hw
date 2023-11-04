@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController(value = "/student")
+@RestController
 @RequiredArgsConstructor
 public class StudentController {
 
     private final StudentService studentService;
 
-    @GetMapping("/all")
+    @GetMapping("/student/all")
     public List<StudentDTO> getAllStudents() {
         return studentService.getAllStudents();
     }
 
-    @GetMapping("/{id}")
-    public StudentDTO getStudent(@PathVariable(name = "id") int id) {
+    @GetMapping("/student/{studentId}")
+    public StudentDTO getStudent(@PathVariable("studentId") Integer id) {
         return studentService.getStudent(id);
     }
 }
