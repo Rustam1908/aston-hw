@@ -1,73 +1,34 @@
 package org.rusty.service;
 
-import org.rusty.entity.Student;
-import org.rusty.entity.students.Junior;
-import org.rusty.entity.students.Middle;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.rusty.converter.StudentConverter;
+import org.rusty.exception.NoSuchStudentException;
+import org.rusty.model.entity.Student;
+import org.rusty.model.rest.StudentDTO;
 import org.rusty.repository.StudentRepository;
+import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.Optional;
 
+@Service
+@Transactional
+@RequiredArgsConstructor
 public class StudentService {
 
-    private final StudentRepository studentRepository = new StudentRepository();
+    private final StudentRepository studentRepository;
+    private final StudentConverter studentConverter;
 
-    public String getJuniorList() {
-        List<Junior> juniors = studentRepository.findAllJuniors();
-        return buildString(juniors);
+    public List<StudentDTO> getAllStudents() {
+        return studentConverter.convertList(studentRepository.findAll());
     }
 
-    private String buildString(List<? extends Student> students) {
-        StringBuilder sb = new StringBuilder();
-        students.forEach(student -> sb
-                .append(student.getFirstName())
-                .append(" ")
-                .append(student.getLastName())
-                .append(", курсы: ")
-                .append(student.getCourses()) // LIE because transactions have to be in this layer
-                .append("\n"));
-        return sb.toString();
-    }
-
-    public String saveNewStudent(HttpServletRequest request) {
-
-//        Set<UUID> courses = Set.of(
-//            UUID.fromString("d6fde834-b924-4b7d-84da-e20fc1b5bd70"),
-//            UUID.fromString("ac556d39-cced-46ab-8ac0-896acb1c7fa1")
-//        );
-//
-//        Intern intern = new Intern();
-//        intern.setFirstName("Ivan");
-//        intern.setLastName("Ivanov");
-//        intern.setPromising(true);
-
-//        Set<UUID> courses = Set.of(
-//            UUID.fromString("34ba28f8-5dac-4a01-b9c0-168d3093bea2"),
-//            UUID.fromString("ff36a4a3-6559-4754-ad54-9c910af11d75")
-//        );
-
-//        Junior junior = new Junior();
-//        junior.setFirstName("Sergey");
-//        junior.setLastName("Sergeev");
-//        junior.setAchievements(Achievements.AVERAGE);
-
-        Set<UUID> courses = Set.of(
-                UUID.fromString("d6fde834-b924-4b7d-84da-e20fc1b5bd70"),
-                UUID.fromString("ff36a4a3-6559-4754-ad54-9c910af11d75")
-        );
-
-        Middle middle = new Middle();
-
-//        middle.setStudentId(1000); // to make PersistentObjectException
-
-        middle.setFirstName("Vova");
-        middle.setLastName("Vladimirov");
-        middle.setAwards("Fullstack Championship Winner");
-
-        studentRepository.save(middle, courses);
-
-        return "Студенты добавлены!";
+    public StudentDTO getStudent(int id) {
+        Optional<Student> studentOptional = studentRepository.findById(id);
+        if (studentOptional.isPresent()) {
+            return studentConverter.convertOne(studentOptional.get());
+        }
+        throw new NoSuchStudentException("No student found by given id.");
     }
 }

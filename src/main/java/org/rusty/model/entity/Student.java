@@ -1,6 +1,8 @@
-package org.rusty.entity;
+package org.rusty.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
@@ -11,11 +13,12 @@ import java.util.Set;
 @Table(name = "Student")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "student_type", discriminatorType = DiscriminatorType.STRING)
+@Getter
+@Setter
 public abstract class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_seq_gen")
-//    @SequenceGenerator(name = "student_seq_gen", sequenceName = "student_seq")
     @GenericGenerator(
         name = "student_seq_gen",
         type = SequenceStyleGenerator.class,
@@ -45,44 +48,4 @@ public abstract class Student {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "diary_id", referencedColumnName = "diary_id")
     private Diary diary;
-
-    public int getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Set<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
-    }
-
-    public Diary getDiary() {
-        return diary;
-    }
-
-    public void setDiary(Diary diary) {
-        this.diary = diary;
-    }
 }

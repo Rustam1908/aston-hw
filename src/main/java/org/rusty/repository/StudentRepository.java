@@ -1,80 +1,10 @@
 package org.rusty.repository;
 
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.rusty.entity.Course;
-import org.rusty.entity.Diary;
-import org.rusty.entity.Student;
-import org.rusty.entity.students.Junior;
-import org.rusty.service.SessionFactoryProvider;
+import org.rusty.model.entity.Student;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+@Repository
+public interface StudentRepository extends JpaRepository<Student, Integer> {
 
-@Slf4j
-public class StudentRepository {
-
-    private final SessionFactory factory = SessionFactoryProvider.getSessionFactory();
-
-    public List<Student> findAll() {
-        Transaction transaction = null;
-        List<Student> students = null;
-
-        try (Session session = factory.openSession()) {
-            transaction = session.beginTransaction();
-            students = session.createQuery("SELECT s FROM Student s", Student.class).getResultList();
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) transaction.rollback();
-            log.error(e.getMessage());
-        }
-        return students;
-    }
-
-    public List<Junior> findAllJuniors() {
-        Transaction transaction = null;
-        List<Junior> juniors = null;
-
-        try (Session session = factory.openSession()) {
-            transaction = session.beginTransaction();
-
-            juniors = session.createQuery("SELECT s FROM Junior s", Junior.class).getResultList();
-
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) transaction.rollback();
-            log.error(e.getMessage());
-        }
-        return juniors;
-    }
-
-    public void save(Student student, Set<UUID> coursesIds) {
-        Transaction transaction = null;
-        Set<Course> courses = new HashSet<>();
-        Diary diary = new Diary();
-
-        try (Session session = factory.openSession()) {
-            transaction = session.beginTransaction();
-
-            for (UUID courseId : coursesIds) {
-                courses.add(session.get(Course.class, courseId));
-            }
-            student.setCourses(courses);
-
-            session.persist(diary);
-            student.setDiary(diary);
-
-            session.persist(student);
-
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null) transaction.rollback();
-            log.error(e.getMessage());
-        }
-    }
 }

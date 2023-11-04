@@ -1,27 +1,22 @@
-package org.rusty.entity.students;
+package org.rusty.model.entity.students;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.rusty.entity.Student;
+import lombok.Getter;
+import lombok.Setter;
+import org.rusty.model.entity.Student;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Middle")
 @DiscriminatorValue(value = "MIDDLE")
+@Getter
+@Setter
 public class Middle extends Student {
 
     @Column(name = "awards")
     private String awards;
-
-    public String getAwards() {
-        return awards;
-    }
-
-    public void setAwards(String awards) {
-        this.awards = awards;
-    }
 }
